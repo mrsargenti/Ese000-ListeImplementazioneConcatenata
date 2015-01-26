@@ -23,7 +23,7 @@ void printAndExit(int code, char message[]);
 int main(int argc, char** argv) {
     
     LLElement * list=NULL;
-    int i;
+    int i, s;
     
     assertSize(10, list, 0);
     
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
     }
     
     // Operazioni 70
-    list = LLInsertAtPosition(list, 3, 10000);
+    list = LLInsertAtPosition(list, 10000, 3);
     
     assertSize(70, list, 6);
     assertKey(71, list, 3, 10000);
@@ -86,6 +86,23 @@ int main(int argc, char** argv) {
     assertPosition(83, list, 10000, 0, 3);
     assertPosition(84, list, 10000, 4, 6);
 
+    // Operazioni 90
+    // Svuoto la lista
+    s = LLSize(list);
+    for(i=0; i<s; i++)
+        list = LLRemoveLast(list);
+    
+    assertSize(90, list, 0);
+    
+    
+    // Operazioni 100
+    for(i=0; i<10; i++)
+        list = LLInsertAtEnd(list, 10+i);
+    assertSize(100, list, 10);
+    for(i=0; i<10; i++)
+        assertKey(101, list, i, 10+i);
+    
+    puts("Ottimo lavoro! Sembra proprio che tutto funzioni correttamente.\n");
     return (EXIT_SUCCESS);
 }
 
@@ -96,6 +113,8 @@ void assertSize(int code, LLElement * first, int expectedSize) {
         sprintf(message, "Dimensione attesa: %d - Dimensione corrente: %d\n", expectedSize, currentSize);
         printAndExit(code, message);
     }
+    else
+        printf("Asserzione %d verificata\n", code);
     return;
 }
 
@@ -108,6 +127,9 @@ void assertKey(int code, LLElement * first, int position, int expectedKey) {
         sprintf(message, "Posizione %d. Valore atteso: %d - Valore corrente: %d\n", position, expectedKey, currentKey);
         printAndExit(code, message);
     }
+    else
+        printf("Asserzione %d verificata\n", code);
+    return;
 }
 
 void assertPosition(int code, LLElement * first, int key, int startPosition, int expectedPosition) {
@@ -122,6 +144,9 @@ void assertPosition(int code, LLElement * first, int key, int startPosition, int
                 currentPosition);
         printAndExit(code, message);
     }
+    else
+        printf("Asserzione %d verificata\n", code);
+    return;
 }
 
 
@@ -129,4 +154,3 @@ void printAndExit(int code, char message[]) {
     fprintf(stderr, "Asserzione %d fallita. %s", code, message);
     exit(code);
 }
-
